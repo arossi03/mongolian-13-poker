@@ -1,0 +1,122 @@
+#table {
+    display: flex;
+}
+
+.card {
+    width: 90px;
+    height: 125px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background-color: #fff;
+    background-size: cover;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+#table-cards {
+    display: flex;
+    top: 10px;
+    right: 10px;
+    width: 500px; /* Increased width */
+    height: 400px; /* Increased height */
+    background-color: green;
+    border: 10px white;
+    border-style: double;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    margin: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.table-card {
+    width: 75px; /* Adjusted card width */
+    height: 110px; /* Adjusted card height */
+    background-color: #fff;
+    border-radius: 10px;
+    background-size: cover;
+    margin-bottom: 30px;
+    margin-right: 10px;
+}
+
+.submit-button{
+    background-color: white;
+    border-color: black;
+    color: black;
+    padding: 20px;
+    width: 10%;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    border-style: solid;
+    margin: auto;
+    transition: background-color 1s,
+        opacity 1s,
+        box-shadow 0.15s;
+}
+
+.submit-button:hover{
+    background-color: lightgreen;
+    opacity: 0.7;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.6);
+}
+
+.pass-button{
+    background-color: white;
+    border-color: black;
+    color: black;
+    width: 10%;
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    border-style: solid;
+    margin:auto;
+    transition: opacity 1s,
+        background-color 1s,
+        box-shadow 0.15s;
+}
+
+.pass-button:hover{
+    opacity: 0.7;
+    background-color: gold;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.6);
+}
+
+#deal {
+    display: flex;
+    margin-bottom: 50px;
+}
+
+.deal-button{
+    background-color: white;
+    color: red;
+    padding: 20px;
+    width: 10%;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 20px;
+    margin: auto;
+    transition: background-color 0.5s,
+        color 0.5s,
+        box-shadow 0.15s;
+}
+
+.deal-button:hover{
+    background-color: red;
+    color: white;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.6);
+}
+
+.title-label{
+    text-align: center;
+    font-size: 40px;
+    font-family: "Lucida Handwriting", cursive;
+}
+
+.player-option{
+    display: flex;
+}
