@@ -5,6 +5,8 @@ let currentPlayerIndex = null;
 let playerNames = ['Andrea', 'Anda'];
 let currentPlayer = null;
 let headPlayerIndex = null;
+let numGames = 0;
+let totalRemainingCards = Array.from({ length: playerNames.length }, () => 0);
 
 function startGame() {
     // Show the "Submit Cards" and "Pass" buttons after starting the game
@@ -16,7 +18,9 @@ function startGame() {
     createDeck();
     dealCards();
     determineStartingPlayer();
+    currentPlayerIndex = -1;
     displayPlayerHands();
+    nextTurn();
 }
 
 function createDeck() {
@@ -120,8 +124,6 @@ function selectCard(event) {
             event.target.style.border = "2px solid blue";
             selectedCards.push({ playerIndex: playerIndex, index: index });
         }
-    } else {
-        alert("It's not your turn!");
     }
 }
 
@@ -155,18 +157,11 @@ function submitCards() {
     });
 
     // Update the display of player's hand
-    displayPlayerHands();
-
-    // Pass the turn to the next player
     headPlayerIndex = currentPlayerIndex;
-    currentPlayerIndex = (currentPlayerIndex + 1) % playerNames.length;
-    if (currentPlayerIndex > playerNames.length - 1) {
-        currentPlayerIndex = 0;
-    }    
-    currentPlayer = playerNames[currentPlayerIndex];
-    selectedCards = []; // Clear selected cards
-    // Update the display of player's hand
+    currentPlayerIndex = -1;
     displayPlayerHands();
+    // Pass the turn to the next player
+    nextTurn()
 }
 
 function passHand() {
@@ -201,3 +196,92 @@ function clearTable() {
     // Display the updated player hands
     displayPlayerHands();
 }
+
+// Define a function to update the scoreboard
+function updateScoreboard() {
+    // Get the scoreboard element
+    const scoreboard = document.getElementById("scoreboard");
+
+    // Create the table element
+    const table = document.createElement("table");
+
+    // Create the table header row
+    const headerRow = table.insertRow();
+    const playerNameHeader = document.createElement("th");
+    playerNameHeader.textContent = "Player";
+    headerRow.appendChild(playerNameHeader);
+    const gameNumHeader = document.createElement("th");
+    gameNumHeader.textContent = "Score";
+    headerRow.appendChild(gameNumHeader);
+
+    // Create a row for each player
+    playerNames.forEach((playerName, index) => {
+        const playerRow = table.insertRow();
+        const playerNameCell = playerRow.insertCell();
+        playerNameCell.textContent = playerName;
+        const totalRemainingCardsCell = playerRow.insertCell();
+        // Calculate the total remaining cards for the player
+        if (players[index].length > 9) {
+            totalRemainingCards[index] += 2*players[index].length;
+        } else {
+            totalRemainingCards[index] += players[index].length;
+        }
+        totalRemainingCardsCell.textContent = totalRemainingCards[index];
+        if (totalRemainingCards[index] > 29) {
+            const row = table.rows[index]
+            row.classList.add("highlighted-row");
+        }
+    });
+
+    // Append the table to the scoreboard element
+    scoreboard.innerHTML = "";
+    scoreboard.appendChild(table);
+}
+
+function nextTurn() {
+    currentPlayerIndex = (headPlayerIndex + 1) % playerNames.length;
+
+    // Check if the current player has won
+    if (players[headPlayerIndex].length === 0) {
+        // Increment the number of games played
+        numGames++;
+
+        // Update the scoreboard
+        updateScoreboard();
+
+        // Create a dark overlay indicating the winner
+        const overlay = document.createElement("div");
+        overlay.classList.add("overlay");
+        overlay.innerHTML = `<div class="player-turn-screen">${playerNames[headPlayerIndex]} wins!</div>`;
+        document.body.appendChild(overlay);
+        setTimeout(() => {
+            document.body.removeChild(overlay);
+            startGame();
+        }, 3000);
+        return; // End the function if a winner is found
+    }
+
+    // Create a dark overlay
+    const overlay = document.createElement("div");
+    overlay.classList.add("overlay");
+    overlay.innerHTML = `<div class="player-turn-screen">${playerNames[currentPlayerIndex]}'s turn...</div>`;
+    document.body.appendChild(overlay);
+
+    // Wait for 3 seconds before removing the overlay
+    setTimeout(() => {
+        // Remove the overlay
+        if (overlay.parentNode === document.body) {
+            // Remove the overlay
+            document.body.removeChild(overlay);
+            if (currentPlayerIndex > playerNames.length - 1) {
+                currentPlayerIndex = 0;
+            }    
+            currentPlayer = playerNames[currentPlayerIndex];
+            selectedCards = []; // Clear selected cards
+            // Update the display of player's hand
+            displayPlayerHands();
+        }
+    }, 3000);
+}
+
+
